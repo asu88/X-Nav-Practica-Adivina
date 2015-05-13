@@ -49,8 +49,10 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
 
 /* ZONA de LAS FOTOS */
-
-   var  getImages =  function(valor) {
+   var images = [];
+   var numFotos = 1;  
+   var Nivel;
+    var  getImages =  function(valor) {
                 var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
                 $.getJSON( flickerAPI, {
                     tags: valor,
@@ -58,27 +60,57 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
                     format: "json"
                 })
                 .done(function( data ) {
-                    $.each( data.items, function( i, item ) {
-                    $( "<br><img>" ).attr( "src", item.media.m ).appendTo( "#images" );
-                    if ( i === 4 ) {
-                        return false;
-                }
 
+                //    console.log(data.items[1].media);
+                    $.each( data.items, function( i, item ) {
+                        images.push(item.media.m);     
+                     
+                    if ( i === 10 ) {
+                        return false;
+                    }
+       //             console.log(images[i]);
                 });
             });
             
         }
       
-      /*  setInterval(function(){ getImages("madrid"); }, 10000);      */
+
         getImages("madrid");  
-
         
+     //   $("#images").html("<img src="+ images[numFotos] +">");                
         
+      var MostrarFotos = function (Nivel){
+        setInterval(function(){
+           // console.log("NumFot "+ numFotos + " length "+ images.length);
+            if(numFotos != images.length -1){            
+                            
+                numFotos ++;
+                
+               $("#images").html("<img src="+ images[numFotos] +">");                
+          
+            }
+            
+         },Nivel);
 
+      }
 /* ZONA de CONTROLES */
-    $("#tab2").hide();   
-    var nivel = 0;
-     $("td.nivel").html("nivel "+nivel)
+          
+ 
+     $("#tab2").hide();   
+
+     $("button.nivel-1").click(function(){
+
+        Nivel = 10000;
+        alert("ha seleccionado el Nivel 1");  
+        MostrarFotos(Nivel);  
+    });
+
+    $("button.nivel-2").click(function(){
+
+        Nivel = 5000;
+        alert("ha seleccionado el Nivel 2"); 
+        MostrarFotos(Nivel);   
+    });
 
     $("button.play").click(function() {        	    
        // alert("el juego ha comenzado");
@@ -88,6 +120,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
     $("button.restart").click(function() {        	    
        // alert("has reseteado el juego");
         $("button.play").show();
+        MostrarFotos(Nivel);
         //$("button.play").html("jugando");
      });
 
