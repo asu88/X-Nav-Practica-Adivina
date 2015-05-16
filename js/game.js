@@ -1,6 +1,25 @@
 /* ZONA DEL MAPA */
 jQuery(document).ready(function() {
 
+$("#games").hide();
+$("button.nivel-2").hide();
+$("button.nivel-1").hide();
+$("button.play").hide();
+$("button.restart").hide();
+$("button.new").hide();
+$("button.mostrar").show();
+$("button.historial").hide();
+$("button.disponibles").hide();
+$("p.capi").hide();
+$("p.conti").hide();
+   $("p.pais").hide();
+var StartGame = false;
+var Levels=[1,2,3];
+var Nivel;
+var JuegoCapitales;
+var JuegoPaises;    
+
+
 var map = L.map('map', {
     center: [51.505, -0.09],
     zoom: 2
@@ -47,11 +66,26 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 	maxZoom: 16
 }).addTo(map);
 
+    var JuegoCapitales;
+    var JuegoPaises;    
+
+    var capitales = [{"madrid":[45,-32]},{"malabo":[38,-43]},{"akurenam":[23,-32]}];
+    var paises = [{"españa":[45,-32]},{"guinea":[38,-43]},{"alemania":[64,-32]}];
+    console.log(capitales[0].madrid[0]); //extrae 45
+    console.log(capitales[1].malabo[0]); //extrae 38
+
+
+    function CalculaDistancia(){
+
+
+    }
+
+
 
 /* ZONA de LAS FOTOS */
    var images = [];
    var numFotos = 1;  
-   var Nivel;
+
     var  getImages =  function(valor) {
                 var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
                 $.getJSON( flickerAPI, {
@@ -93,21 +127,24 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
          },Nivel);
 
       }
-/* ZONA de CONTROLES */
+/* ZONA de CONTROLES-INTERFAZ DE USUARIO */
           
  
-     $("#tab2").hide();   
+    // $("#tab2").hide();   
 
      $("button.nivel-1").click(function(){
 
         Nivel = 10000;
+        $("button.restart").show();
         alert("ha seleccionado el Nivel 1");  
+        
         MostrarFotos(Nivel);  
     });
 
     $("button.nivel-2").click(function(){
 
         Nivel = 5000;
+        $("button.restart").show();
         alert("ha seleccionado el Nivel 2"); 
         MostrarFotos(Nivel);   
     });
@@ -131,8 +168,47 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
     $("button.mostrar").click(function() {        	    
        // alert("mostrando juegos");
-        $("#tab1").hide();
-        $("#tab2").show();
-     });
+        $("button.historial").show();
+        $("button.disponibles").show();
+        $("button.mostrar").hide();
+        $("#games").hide();
+   });
+    
+    $("button.disponibles").click(function(){
+       $("button.mostrar").show(); 
+       $("#games").show();
+       $("button.disponibles").hide();
+       $("button.historial").hide();
+       
+    })
 
+    $("#capi").click(function(){
+        alert("juego por capitales");
+       // $("button.disponibles").show();
+        $("button.nivel-1").show();
+        $("button.nivel-2").show();
+         $("p.capi").show();
+        $("button.mostrar").hide();
+        $("#games").hide();
+    })
+
+    $("#pais").click(function(){
+        alert("jugar por paises");
+       // $("button.disponibles").show();
+        $("button.nivel-1").show();
+        $("button.nivel-2").show();
+        $("p.pais").show();
+        $("button.mostrar").hide();
+        $("#games").hide();
+    })
+
+    $("#conti").click(function(){
+        alert("juegar por continentes");
+       // $("button.disponibles").show();
+        $("button.nivel-1").show();
+        $("button.nivel-2").show();
+         $("p.conti").show();
+        $("button.mostrar").hide();
+        $("#games").hide();    
+    })
 })
