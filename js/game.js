@@ -39,9 +39,33 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
     var JuegoCapitales;
     var JuegoPaises;    
     var latitud, longitud;
-    var capitales = [{"madrid":[40.4378271,-3.6795367]},{"malabo":[38,-43]},{"akurenam":[23,-32]}];
-    var paises = [{"españa":[45,-32]},{"guinea":[38,-43]},{"alemania":[64,-32]}];
-   // console.log(capitales[0].madrid[0]); //extrae 45
+    var latitudREal, longitudReal;
+   // var capitales = [{"madrid":[40.4378271,-3.6795367]},{"malabo":[38,-43]},{"akurenam":[23,-32]}];
+   // var paises = [{"españa":[45,-32]},{"guinea":[38,-43]},{"alemania":[64,-32]}];
+   
+    /* var car = {type:"Fiat", model:500, color:"white"}; 
+       console.log(car.type); */
+
+    /*Function que obtiene los puntos */
+    function GetPunto(){
+        $.getJSON("json/Capitales.json",function(data){
+          //  console.log("latitud " +data.features[Math.floor((Math.random() * data.features.length) + 1)].geometry.coordinates[0]);
+          //  console.log("Name "+ data.features[Math.floor((Math.random() * data.features.length) + 1)].properties.Name);
+        latitudREal = data.features[Math.floor((Math.random() * data.features.length) + 1)].geometry.coordinates[0];
+
+        longitudREal = data.features[Math.floor((Math.random() * data.features.length) + 1)].geometry.coordinates[1];
+        
+        }
+     )
+    }
+
+
+    var ciudad = capitales[Math.floor((Math.random() * capitales.length) + 1)];
+   //console.log("matriz" + Math.floor((Math.random() * capitales.length) + 1)) ;
+   //console.log("ciudad "+ciudad);
+   //coneole.log("0 "+ capitales [1][0]);   
+
+    // console.log(capitales[0].madrid[0]); //extrae 45
    // console.log(capitales[1].malabo[0]); //extrae 38
 
     var popup = L.popup();
@@ -49,7 +73,11 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
             vector = e.latlng.toString().split(",");
             //console.log(vector);
-            
+
+            /*Probando*/
+            GetPunto();
+
+
             // Obtener la latitud y longitud del juego elegido
             latitud = vector[0].split("(")[1];
             longitud = vector[1].split(")")[0];
@@ -134,6 +162,36 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
          var puntuacion = Distancia * Fotos; 
          return puntuacion;
      }
+
+
+     function Distancia(lat1, lon1, lat2, lon2){
+
+
+       /*     var lat1 = 41.3879169;
+            var lon1 = 2.1699187;
+            var lat2 = 40.4167413;
+            var lon2 = -3.7032498;
+
+            Distancia = Dist(lat1, lon1, lat2, lon2);   //Retorna numero en Km
+
+            function Dist(lat1, lon1, lat2, lon2) 
+              { */
+              rad = function(x) {return x*Math.PI/180;}
+
+              var R     = 6378.137;                          //Radio de la tierra en km
+              var dLat  = rad( lat2 - lat1 );
+              var dLong = rad( lon2 - lon1 );
+
+              var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+              var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+              var d = R * c;
+
+              return d.toFixed(3);                      //Retorna tres decimales
+
+}
+
+
+
 
       //getImages("madrid");  
 
