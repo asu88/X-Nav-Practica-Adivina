@@ -11,14 +11,14 @@ $("button.mostrar").show();
 $("button.historial").hide();
 $("button.disponibles").hide();
 $("p.capi").hide();
-$("p.conti").hide();
-   $("p.pais").hide();
+$("p.estadios").hide();
+$("p.ciudades").hide();
 var Stop;
 var StartGame = false;
-var Levels=[1,2,3];
+var hasTag;
 var Nivel;
 var JuegoCapitales;
-var JuegoPaises;    
+var JuegoEstadios;    
 var Distancia;
 var FotosVistas=0;
 var images = [];
@@ -37,52 +37,35 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 }).addTo(map);
 
     var JuegoCapitales;
-    var JuegoPaises;    
+    var JuegoCiudades;    
     var latitud, longitud;
-    var latitudREal, longitudReal;
-   // var capitales = [{"madrid":[40.4378271,-3.6795367]},{"malabo":[38,-43]},{"akurenam":[23,-32]}];
-   // var paises = [{"españa":[45,-32]},{"guinea":[38,-43]},{"alemania":[64,-32]}];
+    var latitudReal, longitudReal;
    
-    /* var car = {type:"Fiat", model:500, color:"white"}; 
-       console.log(car.type); */
 
     /*Function que obtiene los puntos */
-    function GetPunto(){
-        $.getJSON("json/Capitales.json",function(data){
-          //  console.log("latitud " +data.features[Math.floor((Math.random() * data.features.length) + 1)].geometry.coordinates[0]);
-          //  console.log("Name "+ data.features[Math.floor((Math.random() * data.features.length) + 1)].properties.Name);
-        latitudREal = data.features[Math.floor((Math.random() * data.features.length) + 1)].geometry.coordinates[0];
+    function GetDatos(path){
+        $.getJSON(path,function(data){
+         indice =   Math.floor((Math.random() * data.features.length) + 1)
+         latitudReal = data.features[indice].geometry.coordinates[0];
 
-        longitudREal = data.features[Math.floor((Math.random() * data.features.length) + 1)].geometry.coordinates[1];
-        
+        longitudReal = data.features[indice].geometry.coordinates[1];
+        hasTag =  data.features[indice].properties.Name;
+        console.log(hasTag);
         }
      )
     }
 
 
-    var ciudad = capitales[Math.floor((Math.random() * capitales.length) + 1)];
-   //console.log("matriz" + Math.floor((Math.random() * capitales.length) + 1)) ;
-   //console.log("ciudad "+ciudad);
-   //coneole.log("0 "+ capitales [1][0]);   
-
-    // console.log(capitales[0].madrid[0]); //extrae 45
-   // console.log(capitales[1].malabo[0]); //extrae 38
-
+ 
     var popup = L.popup();
     function onMapClick(e) {
 
             vector = e.latlng.toString().split(",");
-            //console.log(vector);
-
-            /*Probando*/
-            GetPunto();
-
-
-            // Obtener la latitud y longitud del juego elegido
+            // Obtener la latitud y longitud al pulsar en el mapa
             latitud = vector[0].split("(")[1];
             longitud = vector[1].split(")")[0];
-            //console.log("latit: " + latitud + " ,longitud: "+longitud);
-            CalcularDistancia(latitud,longitud);
+            
+            Distancia = CalcularDistancia(latitud, longitud, latitudReal , longitudReal);            
             FotosVistas = numFotos;
             numFotos = 0;            
             clearInterval(Stop);     // FInalizar de mostrar las fotos   
@@ -114,7 +97,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
                     $.each( data.items, function( i, item ) {
                         images.push(item.media.m);     
                         
-                    if ( i === 10 ) {
+                    if ( i === 50 ) {
                         return false;
                     }
        //             console.log(images[i]);
@@ -149,33 +132,16 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
      }
 
 
-     var CalcularDistancia = function(LatReal, LongReal){
-         lat = capitales[0].madrid[0];
-         long = capitales[0].madrid[1];
-         var DeltaLat = LatReal -lat;
-         var DeltaLong = LongReal-long;
-         Distancia = Math.sqrt(Math.abs(DeltaLat - DeltaLong)^2);
-      //   console.log(Distancia);
-     }
-    
+        
      function CalcularPuntos(Fotos){
-         var puntuacion = Distancia * Fotos; 
-         return puntuacion;
+         var puntuacion = 100000/(Fotos*Distancia) ; 
+         return puntuacion.toFixed(0);
      }
+      
+
+     function CalcularDistancia(lat1, lon1, lat2, lon2){
 
 
-     function Distancia(lat1, lon1, lat2, lon2){
-
-
-       /*     var lat1 = 41.3879169;
-            var lon1 = 2.1699187;
-            var lat2 = 40.4167413;
-            var lon2 = -3.7032498;
-
-            Distancia = Dist(lat1, lon1, lat2, lon2);   //Retorna numero en Km
-
-            function Dist(lat1, lon1, lat2, lon2) 
-              { */
               rad = function(x) {return x*Math.PI/180;}
 
               var R     = 6378.137;                          //Radio de la tierra en km
@@ -186,42 +152,43 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
               var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
               var d = R * c;
 
-              return d.toFixed(3);                      //Retorna tres decimales
+              return d.toFixed(3);                   
 
 }
 
+    function ChoiceLevel(nivel){
 
-
-
-      //getImages("madrid");  
-
+        Nivel = nivel;
+        $("button.play").show();
+        $("button.nivel-1").hide();
+        $("button.nivel-2").hide();
+            
+    }
 
 /* ZONA de CONTROLES-INTERFAZ DE USUARIO */
           
- 
-    // $("#tab2").hide();   
+    
 
      $("button.nivel-1").click(function(){
-
-        Nivel = 4000;
+        ChoiceLevel(6000);
+     /*   Nivel = 6000;
       //  $("#tab1").hide();
         $("button.play").show();
         $("button.nivel-1").hide();
         $("button.nivel-2").hide();
-        alert("ha seleccionado el Nivel 1");  
-        
-        // MostrarFotos(Nivel);  
+        //alert("ha seleccionado el Nivel 1");  */
+          
     });
 
     $("button.nivel-2").click(function(){
-
-        Nivel = 5000;
+        ChoiceLevel(4000);
+        /*Nivel = 4000;
         //$("#tab1").hide();
         $("button.play").show();
         $("button.nivel-1").hide();
         $("button.nivel-2").hide();
         alert("ha seleccionado el Nivel 2"); 
-       // MostrarFotos(Nivel);   
+       // MostrarFotos(Nivel); */   
     });
 
     $("button.play").click(function() {        	    
@@ -231,7 +198,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         /* Iniciar a mostrar Fotos */
          images=[];
          
-         getImages("madrid");          
+         getImages(hasTag);          
          StartGame = true;
          $("button.play").hide();
          $("button.restart").show();       
@@ -287,8 +254,10 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
     $("#capi").click(function(){
         alert("juego por capitales");
        // $("button.disponibles").show();
-        var lat = capitales[0].madrid[0]
-        var long = capitales[0].madrid[1]
+      //  var lat = capitales[0].madrid[0]
+      //  var long = capitales[0].madrid[1]
+        
+        GetDatos("json/Capitales.json");        
         $("button.nivel-1").show();
         $("button.nivel-2").show();
          $("p.capi").show();
@@ -296,22 +265,24 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         $("#games").hide();
     })
 
-    $("#pais").click(function(){
-        alert("jugar por paises");
+    $("#ciudades").click(function(){
+        alert("jugar por ciudades");
        // $("button.disponibles").show();
+        GetDatos("json/Ciudades.json");        
         $("button.nivel-1").show();
         $("button.nivel-2").show();
-        $("p.pais").show();
+        $("p.ciudades").show();
         $("button.mostrar").hide();
         $("#games").hide();
     })
 
-    $("#conti").click(function(){
-        alert("juegar por continentes");
+    $("#estadios").click(function(){
+        alert("juegar por Estadios");
        // $("button.disponibles").show();
+        GetDatos("json/Estadios.json")
         $("button.nivel-1").show();
         $("button.nivel-2").show();
-         $("p.conti").show();
+         $("p.estadios").show();
         $("button.mostrar").hide();
         $("#games").hide();    
     })

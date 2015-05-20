@@ -1,0 +1,83 @@
+{
+	"type": "FeatureCollection",
+	"features": 
+	[
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [40.4378271,-3.6795367]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Madrid"
+			},
+			"id": 1
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 35.673343,-139.710388]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Tokyo"
+			},
+			"id": 2
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [3.7534451,8.7421058 ]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Malabo"
+			},
+			"id": 3
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [39.9388838,116.3974589]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Pekin"
+			},
+			"id": 4
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 41.8337329,-87.7321555]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Chicago"
+			},
+			"id": 5
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [5.3486397,-3.9798626,12 ]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Abidjam"
+			},
+			"id": 6
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 55.749792,37.632495]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Moscu"
+			},
+			"id": 7
+        }
+	]
+}

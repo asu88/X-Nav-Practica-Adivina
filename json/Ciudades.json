@@ -1,0 +1,83 @@
+{
+	"type": "FeatureCollection",
+	"features": 
+	[
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [40.4378271,-3.6795367]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Madrid"
+			},
+			"id": 1
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 35.673343,-139.710388]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Tokyo"
+			},
+			"id": 2
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [41.9100711,12.5359979]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "roma"
+			},
+			"id": 3
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [41.0053215,29.0121795]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "estambul"
+			},
+			"id": 4
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 12.6119415,-7.9955131]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "bamako"
+			},
+			"id": 5
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [33.9691607,-6.8572014]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Rabat"
+			},
+			"id": 6
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 41.39479,2.1487679]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Barcelona"
+			},
+			"id": 7
+        }
+	]
+}
