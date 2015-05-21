@@ -13,6 +13,8 @@ $("button.disponibles").hide();
 $("p.capi").hide();
 $("p.estadios").hide();
 $("p.ciudades").hide();
+$("button.back").hide();
+
 var Stop;
 var StartGame = false;
 var hasTag;
@@ -45,7 +47,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
     /*Function que obtiene los puntos */
     function GetDatos(path){
         $.getJSON(path,function(data){
-         indice =   Math.floor((Math.random() * data.features.length) + 1)
+         var indice =   Math.floor((Math.random() * data.features.length) + 1)
          latitudReal = data.features[indice].geometry.coordinates[0];
 
         longitudReal = data.features[indice].geometry.coordinates[1];
@@ -67,7 +69,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
             
             Distancia = CalcularDistancia(latitud, longitud, latitudReal , longitudReal);            
             FotosVistas = numFotos;
-            numFotos = 0;            
+          //  numFotos = 0;            
             clearInterval(Stop);     // FInalizar de mostrar las fotos   
             StartGame = false;
             console.log("Fotos Vistas "+FotosVistas);
@@ -135,6 +137,8 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         
      function CalcularPuntos(Fotos){
          var puntuacion = 100000/(Fotos*Distancia) ; 
+        // History.pushState({state:1}, "State 1", "?state=1");
+        console.log(puntuacion);
          return puntuacion.toFixed(0);
      }
       
@@ -156,78 +160,72 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
 }
 
+    /* Funcion que selecciona el nivel de dificultad*/
     function ChoiceLevel(nivel){
 
         Nivel = nivel;
         $("button.play").show();
         $("button.nivel-1").hide();
         $("button.nivel-2").hide();
+        $("button.back").show();        
+
             
     }
 
+    
+
+    function ChoiceGame(){
+        $("button.nivel-1").show();
+        $("button.nivel-2").show();
+        // $("p.capi").show();
+        $("button.mostrar").hide();
+        $("#games").hide();
+
+    } 
 /* ZONA de CONTROLES-INTERFAZ DE USUARIO */
           
     
-
-     $("button.nivel-1").click(function(){
+    $("button.back").click(function(){
+          window.history.back();
+    })
+    
+     
+    $("button.nivel-1").click(function(){
         ChoiceLevel(6000);
-     /*   Nivel = 6000;
-      //  $("#tab1").hide();
-        $("button.play").show();
-        $("button.nivel-1").hide();
-        $("button.nivel-2").hide();
-        //alert("ha seleccionado el Nivel 1");  */
-          
+           
     });
 
     $("button.nivel-2").click(function(){
-        ChoiceLevel(4000);
-        /*Nivel = 4000;
-        //$("#tab1").hide();
-        $("button.play").show();
-        $("button.nivel-1").hide();
-        $("button.nivel-2").hide();
-        alert("ha seleccionado el Nivel 2"); 
-       // MostrarFotos(Nivel); */   
+        ChoiceLevel(4000);         
     });
 
     $("button.play").click(function() {        	    
-       // alert("el juego ha comenzado");       
-  
-     //   while (clikeado == true);
-        /* Iniciar a mostrar Fotos */
+   
+        /* Empezar a mostrar Fotos */
          images=[];
-         
          getImages(hasTag);          
          StartGame = true;
          $("button.play").hide();
          $("button.restart").show();       
-//         map.on('click', onMapClick);
-
          MostrarFotos(Nivel, StartGame);            
                     
-            /* Programar el evento de lo que ocurre al clikear en el mapa */                 
+      });
 
-    });
-
+ /* Programar el evento de lo que ocurre al clikear en el mapa */
     map.on('click', onMapClick);
 
 
     $("button.restart").click(function() {        	    
-         alert("¿Seguro a reiniciar el Juego?");
+         alert("¿Estás seguro en reiniciar el Juego?");
          numFotos =0;
-        clearInterval(Stop);
-       //  FotosVistas =0;
-        // getImages("madrid");  
+         clearInterval(Stop);
          StartGame = true;
          $("p.puntuacion").html(" ");
          $("#images").html(" ");
          $("button.play").hide();
-        $("button.restart").show();       
-  //       map.on('click', onMapClick);
-
+         $("button.restart").show();       
          MostrarFotos(Nivel, StartGame); 
-        //$("button.play").html("jugando");
+
      });
 
     $("button.new").click(function() {        	    
@@ -252,39 +250,43 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
     })
 
     $("#capi").click(function(){
-        alert("juego por capitales");
-       // $("button.disponibles").show();
-      //  var lat = capitales[0].madrid[0]
-      //  var long = capitales[0].madrid[1]
+     //   alert("juego por capitales");
         
         GetDatos("json/Capitales.json");        
-        $("button.nivel-1").show();
+        ChoiceGame();   
+        $("p.capi").show();        
+        /*$("button.nivel-1").show();
         $("button.nivel-2").show();
-         $("p.capi").show();
+         
         $("button.mostrar").hide();
-        $("#games").hide();
+        $("#games").hide();*/
+
     })
 
     $("#ciudades").click(function(){
-        alert("jugar por ciudades");
+      //  alert("jugar por ciudades");
        // $("button.disponibles").show();
-        GetDatos("json/Ciudades.json");        
-        $("button.nivel-1").show();
+        GetDatos("json/Ciudades.json");
+        ChoiceGame();        
+        $("p.ciudades").show();        
+        /*$("button.nivel-1").show();
         $("button.nivel-2").show();
         $("p.ciudades").show();
         $("button.mostrar").hide();
-        $("#games").hide();
+        $("#games").hide();*/
     })
 
     $("#estadios").click(function(){
-        alert("juegar por Estadios");
+       // alert("juegar por Estadios");
        // $("button.disponibles").show();
-        GetDatos("json/Estadios.json")
-        $("button.nivel-1").show();
+        GetDatos("json/Estadios.json");
+        $("p.estadios").show();
+        ChoiceGame();
+        /*$("button.nivel-1").show();
         $("button.nivel-2").show();
          $("p.estadios").show();
         $("button.mostrar").hide();
-        $("#games").hide();    
+        $("#games").hide();    */
     })
 
 
