@@ -14,10 +14,10 @@ $("p.capi").hide();
 $("p.estadios").hide();
 $("p.ciudades").hide();
 $("button.back").hide();
-
+var points = 0;
 var Stop;
 var StartGame = false;
-var hasTag;
+var hasTag="";
 var Nivel;
 var JuegoCapitales;
 var JuegoEstadios;    
@@ -42,12 +42,17 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
     var JuegoCiudades;    
     var latitud, longitud;
     var latitudReal, longitudReal;
+    var nivel =0;
+    var estadoActual =1;
+    var volver =0;
    
 
     /*Function que obtiene los puntos */
     function GetDatos(path){
         $.getJSON(path,function(data){
+        //console.log("viejo indice "+indice);
          var indice =   Math.floor((Math.random() * data.features.length) + 1)
+        // console.log("nuevo indice "+indice);        
          latitudReal = data.features[indice].geometry.coordinates[0];
 
         longitudReal = data.features[indice].geometry.coordinates[1];
@@ -72,12 +77,35 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
           //  numFotos = 0;            
             clearInterval(Stop);     // FInalizar de mostrar las fotos   
             StartGame = false;
-            console.log("Fotos Vistas "+FotosVistas);
+//            console.log("Fotos Vistas "+FotosVistas);
            // console.log( "Puntuacion "+CalcularPuntos(FotosVistas));
-            $("p.puntuacion").html("Puntuacion "+CalcularPuntos(FotosVistas)+ "<br>FINAL DE JUEGO");
+            points = CalcularPuntos(FotosVistas);
+            $("p.puntuacion").html("Puntuacion "+points+ "<br>FINAL DE JUEGO");
+            $("button.restart").hide();       
             $("p.puntuacion").show();
-    }
+            $("button.historial").hide();
+            $("button.new").show();
+            $("button.back").hide();
+            
+            // addHistory()  aniadir una entrada nueva            
+            
+            history.replaceState({puntos:CalcularPuntos(FotosVistas)}, "page 1", location.href);     
+     }
 
+
+   window.onpopstate = function(event) {
+          alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+   };
+
+
+
+    $("button.historial").click(function(){
+        $("#gamesHistory").show();
+
+    })
+
+
+    //$("").
 
 
 /* ZONA de LAS FOTOS */
@@ -136,10 +164,14 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
         
      function CalcularPuntos(Fotos){
-         var puntuacion = 100000/(Fotos*Distancia) ; 
+         var puntuacion = 100000/(Fotos*Distancia) ;
+        // var state = {puntos:121};
+ //         history.pushState({puntos:121}, "page 1", "1");  
         // History.pushState({state:1}, "State 1", "?state=1");
+        console.log(Distancia);
+        console.log(Fotos);
         console.log(puntuacion);
-         return puntuacion.toFixed(0);
+        return puntuacion.toFixed(0);
      }
       
 
@@ -172,7 +204,9 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
             
     }
 
-    
+    function bakcState(ir){
+        history.go(ir);
+    }
 
     function ChoiceGame(){
         $("button.nivel-1").show();
@@ -186,7 +220,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
           
     
     $("button.back").click(function(){
-          window.history.back();
+          history.back();
     })
     
      
@@ -230,7 +264,12 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
     $("button.new").click(function() {        	    
       //  alert("creando nuevo juego");
-        
+        $("button.mostrar").show();
+        $("button.new").hide();
+        $("button.historial").hide();
+       $("button.nivel 1").hide(); 
+        $("button.nivel 2").hide();
+        $("button.back").hide();
      });
 
     $("button.mostrar").click(function() {        	    
@@ -255,6 +294,14 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         GetDatos("json/Capitales.json");        
         ChoiceGame();   
         $("p.capi").show();        
+        var objeto = {puntos:points,fecha:new Date(), nombre:"capitales"}
+        history.pushState(objeto, "page 1", location.href+"capitales");    
+        //nivel ;
+        estadoActual ++;
+        volver = nivel - estadoActual;
+        var link=' <a id='+objeto.nombre+' href="javascript:history.go('+volver+')">Puntos: '+objeto.puntos+' Fecha:'+objeto.fecha+'</a>'  ;
+        $("#gamesHistory").append(link);
+        console.log(location.href);
         /*$("button.nivel-1").show();
         $("button.nivel-2").show();
          
@@ -269,6 +316,13 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         GetDatos("json/Ciudades.json");
         ChoiceGame();        
         $("p.ciudades").show();        
+        var objeto = {puntos:points,fecha:new Date(), nombre:"ciudades"}
+        history.pushState(objeto, "page 1", location.href+"ciudades");    
+        //nivel ;
+        estadoActual ++;
+        volver = nivel - estadoActual;
+        var link=' <a id='+objeto.nombre+' href="javascript:history.go('+volver+')">Puntos: '+objeto.puntos+' Fecha:'+objeto.fecha+'</a>'  ;
+        $("#gamesHistory").append(link);
         /*$("button.nivel-1").show();
         $("button.nivel-2").show();
         $("p.ciudades").show();
@@ -281,7 +335,14 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
        // $("button.disponibles").show();
         GetDatos("json/Estadios.json");
         $("p.estadios").show();
-        ChoiceGame();
+       var objeto = {puntos:points,fecha:new Date(), nombre:"estadios"}
+        history.pushState(objeto, "page 1", location.href+"estadios");    
+        //nivel ;
+        estadoActual ++;
+        volver = nivel - estadoActual;
+        var link=' <a id='+objeto.nombre+' href="javascript:history.go('+volver+')">Puntos: '+objeto.puntos+' Fecha:'+objeto.fecha+'</a>'  ;
+        $("#gamesHistory").append(link);
+         ChoiceGame();
         /*$("button.nivel-1").show();
         $("button.nivel-2").show();
          $("p.estadios").show();
