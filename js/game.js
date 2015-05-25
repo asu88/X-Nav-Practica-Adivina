@@ -14,6 +14,8 @@ $("p.capi").hide();
 $("p.estadios").hide();
 $("p.ciudades").hide();
 $("button.back").hide();
+var load = "images/init.gif";
+        $("#images").html("<img class = "+'"load"'+" src="+load+">");
 var points = 0;
 var Stop;
 var StartGame = false;
@@ -94,7 +96,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
 
    window.onpopstate = function(event) {
-          alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+          //alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
    };
 
 
@@ -148,7 +150,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
             if(numFotos !== images.length -1 && Status ===true){            
                             
                 numFotos ++;
-                
+                console.log(images[numFotos]);
                $("#images").html("<img src="+ images[numFotos] +">");                
           
             }    
@@ -236,6 +238,9 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
     $("button.play").click(function() {        	    
    
         /* Empezar a mostrar Fotos */
+        var load = "images/loading.GIF";
+        $("#images").html("<img class = "+'"load"'+" src="+load+">");
+                       //$("#images").html("<img src="+ images[numFotos] +">");                
          images=[];
          getImages(hasTag);          
          StartGame = true;
@@ -250,20 +255,24 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
 
     $("button.restart").click(function() {        	    
-         alert("¿Estás seguro en reiniciar el Juego?");
+         //alert("¿Estás seguro en reiniciar el Juego?");
          numFotos =0;
          clearInterval(Stop);
          StartGame = true;
          $("p.puntuacion").html(" ");
          $("#images").html(" ");
          $("button.play").hide();
-         $("button.restart").show();       
+         $("button.restart").show(); 
+        var load = "images/loading.GIF";
+        $("#images").html("<img class = "+'"load"'+" src="+load+">");      
          MostrarFotos(Nivel, StartGame); 
 
      });
 
     $("button.new").click(function() {        	    
       //  alert("creando nuevo juego");
+        var load = "images/init.gif";
+        $("#images").html("<img class = "+'"load"'+" src="+load+">");
         $("button.mostrar").show();
         $("button.new").hide();
         $("button.historial").hide();
