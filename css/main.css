@@ -14,7 +14,7 @@ html, body{
 }
 
 body{
-    background:url("/images/fondo.jpg");
+    background:url("images/fondo.jpg");
 }
 
  #map {
