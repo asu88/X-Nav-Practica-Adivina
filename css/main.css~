@@ -14,9 +14,9 @@ html, body{
 }
 
  #map {
-    height:260px;
-    width:356px;
-    /*margin-left:10%;*/
+    height:250px;
+    width:200px;
+    margin-left:10%;
    /*float:left;*/ 
     margin-top:4%;
 }

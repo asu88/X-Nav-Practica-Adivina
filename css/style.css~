@@ -702,7 +702,7 @@ and (max-width : 991px) {
     color: #fff;
     text-align: center;
 }
-/*
+
 .team-details ul {
     padding-top: 40%;
 }
@@ -720,7 +720,7 @@ and (max-width : 991px) {
     -moz-border-radius: 2px;
     -o-border-radius: 2px;
     border-radius: 2px;
-} */
+}
 
 .team-member:hover .team-details {
     opacity: 1;

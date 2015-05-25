@@ -37,7 +37,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 	attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
 	maxZoom: 16
 }).addTo(map);
-
+    var ListaJuegos = [];
     var JuegoCapitales;
     var JuegoCiudades;    
     var latitud, longitud;
@@ -297,6 +297,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         var objeto = {puntos:points,fecha:new Date(), nombre:"capitales"}
         history.pushState(objeto, "page 1", location.href+"capitales");    
         //nivel ;
+        //ListaJuegos.push("capitales");
         estadoActual ++;
         volver = nivel - estadoActual;
         var link=' <a id='+objeto.nombre+' href="javascript:history.go('+volver+')">Puntos: '+objeto.puntos+' Fecha:'+objeto.fecha+'</a>'  ;

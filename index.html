@@ -24,7 +24,9 @@
    <link href = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"> 
    <!-- 
    <link href="css/bootstrap.min.css" rel="stylesheet"> -->
-
+ <!--   <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet"> -->
+    <link href="css/style.css" rel="stylesheet">
     <!-- Custom CSS -->
    <!-- <link href="css/style2.css" rel="stylesheet"> -->
      <link rel="stylesheet"  href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
@@ -38,20 +40,27 @@
 
   <!--  <div class="row"> -->
 
-    <div id="menu">ADIVINA DONDE ESTÁ</div>
+   <div id="menu">ADIVINA DONDE ESTÁ</div>
 
-          <div id = "fotos">
+    <div class="row">
+        <div id = "fotos" class="col-md-4">
            adivina <br>
            <div id="images"></div>
-          </div>
-         
-        <div id = "map"></div> 
-         <div id="controles" class="row">
+        </div>
+        
+        <div class="col-md-5"> 
+            <div id="map"></div> 
+        </div>    
+        <div class="col-md-3">    
+             <div id="controles" >
          
                 <table id="tab1">
                     
                     <tr>
-                       <td><button type="button" class="mostrar">All Games</button></td>
+                       
+                       <td><button type="button" class="mostrar menu-item light-red">All Games</div></button></td>
+                       
+                       
                        <td><button type="button" class="play"><img src="images/start.gif"></button></td> 
                     </tr> 
                     <tr>
@@ -69,8 +78,8 @@
               <table id="tab2">
                     <tr> 
                        <td><button type="button" class="back">Atrás</button></td> 
-                       <td><button type="button" class="historial">Historial</button></td>
-                       <td><button type="button" class="disponibles">Disponibles</button></td>
+                       <td><button type="button" class="historial menu-item green">Historial</button></td>
+                       <td><button type="button" class="disponibles menu-item blue">Disponibles</button></td>
                        <ul id="gamesHistory">
 
                        </ul>
@@ -87,9 +96,9 @@
                         <p class="estadios">Jugando por Estadios</p>                                                                                                                                                                                                                                                        
                     </tr>
               </table>
-                      
+               </div>      
         </div>   
-        
+   </div>     <!--ROW -->
     <!-- Navigation -->
     <!-- jQuery -->
  <!--   <script src="js/jquery.js"></script> -->
