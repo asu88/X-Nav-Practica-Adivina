@@ -35,11 +35,14 @@ var numFotos = 0;
 var ListaJuegos = [];
 var latitud, longitud;
 var latitudReal, longitudReal;
- var indice =0;
- var estadoActual = ListaJuegos.length;
- var ciud=1;
-var cap =1;
-var estad =1;
+ var indiceCap =0;
+ var indiceCiu =0;
+var indiceEst=0;
+
+ var estadoActual;
+ var ciud=0;
+var cap =0;
+var estad =0;
 var map = L.map('map', {
     center: [51.505, -0.09],
     zoom: 2
@@ -93,23 +96,38 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
            if(Juego == JuegoCapitales){
                // alert("jugabas a capitales");
               
-              PuntosCapi = PuntosCapi + points; 
-              //  alert(PuntosCapi);
-                $("p.puntuacion").show();
-               $("p.puntuacion").html("Puntuacion "+PuntosCapi+ "<br>FINAL DE JUEGO");    
-                 
+                    PuntosCapi = PuntosCapi + points; 
+                      //  alert(PuntosCapi);
+                     $("p.puntuacion").show();
+                     $("p.puntuacion").html("Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosCapi+ "<br>FINAL DE JUEGO</h3>");   
+                    
+                    cap++; 
+                    ListaJuegos.push("capitales");
+                    indiceCap = ListaJuegos.indexOf("capitales");
+                    addHistory("capitales", PuntosCapi,indiceCap,cap ); 
+                     
             }else if (Juego == JuegoEstadios){
                    // alert("jugabas a estadios");
                     PuntosEstadio = PuntosEstadio + points;
+                    
                    // alert(PuntosEstadio);
-                    $("p.puntuacion").html("Puntuacion "+PuntosEstadio+ "<br>FINAL DE JUEGO");
+                    $("p.puntuacion").html( "Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosEstadio+ "<br>FINAL DE JUEGO</h3>");
                     $("p.puntuacion").show();
+                    estad++;
+                    ListaJuegos.push("estadios");
+                    indiceCap = ListaJuegos.indexOf("estadios");
+                    addHistory("estadios", PuntosEstadio,indiceEst,estad );
             }else if(Juego ==JuegoCiudades ){
                // alert("jugabas a ciudades");
                   PuntosCiudad = PuntosCiudad + points; 
                //  alert(PuntosCiudad);
-                  $("p.puntuacion").html("Puntuacion "+PuntosCiudad+ "<br>FINAL DE JUEGO");
+                  $("p.puntuacion").html("Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosCiudad+ "<br>FINAL DE JUEGO</h3>");
                   $("p.puntuacion").show();
+                   ciud++;
+                   ListaJuegos.push("ciudades");
+                   indiceCap = ListaJuegos.indexOf("ciudades");
+                   addHistory("ciudades", PuntosCiudad,indiceCiu,ciud);
+
             }
             //$("p.puntuacion").html("Puntuacion "+points+ "<br>FINAL DE JUEGO");
             $("button.restart").hide();       
@@ -130,7 +148,13 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
 
    window.onpopstate = function(evento) {
-         //alert("location: " + document.location + ", state: " + JSON.stringify(evento.state));
+       // alert("location: " + document.location + ", state: " + JSON.stringify(evento.state));
+        /*Volver a jugar al historial guardado con estado*/
+        ChoiceGame();
+        $("button.historial").hide();
+        $("#gamesHistory").hide();
+        $("button.puntuacion").hide();
+        console.log(JSON.stringify(evento.state));
    };
 
 
@@ -204,12 +228,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         
      function CalcularPuntos(Fotos){
          var puntuacion = 100000/(Fotos*Distancia) ;
-        // var state = {puntos:121};
- //         history.pushState({puntos:121}, "page 1", "1");  
-        // History.pushState({state:1}, "State 1", "?state=1");
-        console.log(Distancia);
-        console.log(Fotos);
-        console.log(puntuacion);
+         console.log(puntuacion);
         return puntuacion.toFixed(0);
      }
       
@@ -255,6 +274,20 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         $("#games").hide();
 
     } 
+
+    /* Añadir Historial a la pila */
+    function addHistory(nombre, puntos,index,num ){
+
+        
+         var objeto = {puntos:puntos,fecha:new Date(), nombre:nombre};
+         history.pushState(objeto, "Adivinanzas", nombre);             
+         estadoActual =  ListaJuegos.length;  
+         var volver = index - estadoActual;
+         var link=' <a id='+nombre+num+' href="javascript:history.go('+volver+')">'+nombre+num+" "+'Puntos:  '+puntos+' Fecha:'+objeto.fecha+'</a>'  ;
+        $("#gamesHistory").append(link);
+        
+    }
+
 /* ZONA de CONTROLES-INTERFAZ DE USUARIO */
           
     
@@ -340,6 +373,9 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
        
     })
 
+
+    
+
     $("#capi").click(function(){
      //   alert("juego por capitales");
         Juego ="CP";
@@ -349,24 +385,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         GetDatos("json/Capitales.json");        
         ChoiceGame();   
         $("p.capi").show();    
-           //Guardar en la lista el nombre del juego
-        cap++; 
-        ListaJuegos.push("capitales"+ cap);
-
-        var objeto = {puntos:points,fecha:new Date(), nombre:"capitales"}
-        history.pushState(objeto, "page 1", location.href+"capitales");    
-        //nivel ;
-        //ListaJuegos.push("capitales");
-        var volver = indice - estadoActual;
-        var link=' <a id='+objeto.nombre+' href="javascript:history.go('+volver+')">Puntos: '+objeto.puntos+' Fecha:'+objeto.fecha+'</a>'  ;
-        $("#gamesHistory").append(link);
-      //  console.log(location.href);
-        /*$("button.nivel-1").show();
-        $("button.nivel-2").show();
-         
-        $("button.mostrar").hide();
-        $("#games").hide();*/
-
+     
     })
 
     $("#ciudades").click(function(){
@@ -378,22 +397,8 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         GetDatos("json/Ciudades.json");
         ChoiceGame();        
         $("p.ciudades").show();
-
-        ciud++; 
-        ListaJuegos.push("capitales"+ ciud);
-            
-        var objeto = {puntos:points,fecha:new Date(), nombre:"ciudades"}
-        history.pushState(objeto, "page 1", location.href+"ciudades");    
-        //nivel ;
-        //estadoActual ++;
-        var volver = indice - estadoActual;
-        var link=' <a id='+objeto.nombre+' href="javascript:history.go('+volver+')">Puntos: '+objeto.puntos+' Fecha:'+objeto.fecha+'</a>';
-       $("#gamesHistory").append(link);
-        /*$("button.nivel-1").show();
-        $("button.nivel-2").show();
-        $("p.ciudades").show();
-        $("button.mostrar").hide();
-        $("#games").hide();*/
+        
+     
     })
 
     $("#estadios").click(function(){
@@ -405,23 +410,8 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         map.on('click', onMapClick); // Activo el evento de clickear en el mapa        
         GetDatos("json/Estadios.json");
         $("p.estadios").show();
-        
-        estad ++; 
-        ListaJuegos.push("capitales"+ estad);
-    
-       var objeto = {puntos:points,fecha:new Date(), nombre:"estadios"}
-        history.pushState(objeto, "page 1", location.href+"estadios");    
-        //nivel ;
-        
-        var volver = indice - estadoActual;
-        var link=' <a id='+objeto.nombre+' href="javascript:history.go('+volver+')">Puntos: '+objeto.puntos+' Fecha:'+objeto.fecha+'</a>'  ;
-        $("#gamesHistory").append(link);
-         ChoiceGame();
-        /*$("button.nivel-1").show();
-        $("button.nivel-2").show();
-         $("p.estadios").show();
-        $("button.mostrar").hide();
-        $("#games").hide();    */
+        ChoiceGame();
+     
     })
 
 
