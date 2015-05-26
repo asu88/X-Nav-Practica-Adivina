@@ -1,0 +1,17 @@
+{
+"version": "1.0",
+"name": "Adivina",
+"description": "Juego de Adivinanzas",
+"launch_path": "/X-Nav-Practica-Adivina/index.html",
+"developer": {
+"name": "Antonio Ramon Asu Akogo",
+"url": "https://github.com/asu88"
+},
+"default_locale": "en",
+"permissions": {
+"geolocation": {
+"description": "Access to your position"
+}
+},
+"chrome": {"navigation": true}
+}
