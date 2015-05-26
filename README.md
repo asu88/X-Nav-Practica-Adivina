@@ -16,4 +16,4 @@ En la parte obligatoria está implementado el Open Web App, aunque en lo del Fir
 
 A parte de lo básico, he metido animaciones mientras se carga el juego, un carousel de imágenes en y un calendario usando jqueryIU.
 
-La url del vídeo es esta: <a href="https://www.youtube.com/watch?v=W8W3H0Pz2tw">the app</a>
+La url del vídeo es esta: <a href="https://www.youtube.com/watch?v=W8W3H0Pz2tw">Vídeo demo</a>
