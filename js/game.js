@@ -48,7 +48,7 @@ var map = L.map('map', {
     zoom: 2
 });
 
-
+ $( "#date" ).datepicker();
 
 
 L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -99,7 +99,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
                     PuntosCapi = PuntosCapi + points; 
                       //  alert(PuntosCapi);
                      $("p.puntuacion").show();
-                     $("p.puntuacion").html("Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosCapi+ "<br>FINAL DE JUEGO</h3>");   
+                     $("p.puntuacion").html("Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosCapi+ "<br>PARTIDA FINALIZADA</h3>");   
                     
                     cap++; 
                     ListaJuegos.push("capitales");
@@ -111,7 +111,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
                     PuntosEstadio = PuntosEstadio + points;
                     
                    // alert(PuntosEstadio);
-                    $("p.puntuacion").html( "Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosEstadio+ "<br>FINAL DE JUEGO</h3>");
+                    $("p.puntuacion").html( "Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosEstadio+ "<br>PARTIDA FINALIZADA</h3>");
                     $("p.puntuacion").show();
                     estad++;
                     ListaJuegos.push("estadios");
@@ -121,7 +121,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
                // alert("jugabas a ciudades");
                   PuntosCiudad = PuntosCiudad + points; 
                //  alert(PuntosCiudad);
-                  $("p.puntuacion").html("Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosCiudad+ "<br>FINAL DE JUEGO</h3>");
+                  $("p.puntuacion").html("Solución:<h2>"+hasTag+"</h2><br><h3>Puntuacion "+PuntosCiudad+ "<br>PARTIDA FINALIZADA</h3>");
                   $("p.puntuacion").show();
                    ciud++;
                    ListaJuegos.push("ciudades");
