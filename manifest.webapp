@@ -1,17 +1,22 @@
 {
-"version": "1.0",
-"name": "Adivina",
-"description": "Juego de Adivinanzas",
-"launch_path": "/X-Nav-Practica-Adivina/index.html",
-"developer": {
-"name": "Antonio Ramon Asu Akogo",
-"url": "https://github.com/asu88"
-},
-"default_locale": "en",
-"permissions": {
-"geolocation": {
-"description": "Access to your position"
-}
-},
-"chrome": {"navigation": true}
+  "version": "1.0",
+  "name": "Adivinanzas",
+  "description": "Juego de Adivinanzas",
+  "launch_path": "/X-Nav-Practica-Adivina/index.html",
+  "icons": {
+      "16": "/X-Nav-5.11.2-OpenWebApps/images/maps-icon16.png",
+      "48": "/X-Nav-5.11.2-OpenWebApps/images/maps-icon48.png",
+      "128": "/X-Nav-5.11.2-OpenWebApps/images/maps-icon128.png"
+   },
+  "developer": {
+      "name": "Antonio Ramon Asu Akogo",
+      "url": "https://github.com/asu88"
+    },
+  "default_locale": "en",
+  "permissions": {
+     "geolocation": {
+        "description": "Access to your position"
+       }
+    },
+  "chrome": {"navigation": true}
 }
