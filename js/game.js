@@ -228,8 +228,12 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
         
      function CalcularPuntos(Fotos){
          var puntuacion = 10000/(Fotos*Distancia) ;
+	 var puntuacionTostring = puntuacion.toString();
+	 if (puntuacionTostring > 4){
+	 	puntuacionTostring = puntuacionTostring.slice(0,4)
+	 }
          console.log(puntuacion);
-        return puntuacion.toFixed(0);
+        return puntuacionTostring;
      }
       
 
