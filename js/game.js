@@ -227,7 +227,7 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
 
         
      function CalcularPuntos(Fotos){
-         var puntuacion = 100000/(Fotos*Distancia) ;
+         var puntuacion = 10000/(Fotos*Distancia) ;
          console.log(puntuacion);
         return puntuacion.toFixed(0);
      }
