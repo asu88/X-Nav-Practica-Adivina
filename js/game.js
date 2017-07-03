@@ -230,10 +230,11 @@ L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Ma
          var puntuacion = 10000/(Fotos*Distancia) ;
 	 var puntuacionTostring = puntuacion.toString();
 	 if (puntuacionTostring > 4){
-	 	puntuacionTostring = puntuacionTostring.slice(0,4)
+	 	puntuacionTostring = puntuacionTostring.slice(0,4);
+		puntuacion = parseInt(puntuacionTostring);
 	 }
          console.log(puntuacion);
-        return puntuacionTostring;
+        return puntuacion.toFixed(0);
      }
       
 
