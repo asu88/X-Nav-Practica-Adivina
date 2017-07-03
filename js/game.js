@@ -48,7 +48,7 @@ var map = L.map('map', {
     zoom: 2
 });
 
-// $( "#date" ).datepicker();
+//$( "#date" ).datepicker();
 
 
 L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
